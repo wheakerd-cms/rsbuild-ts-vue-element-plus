@@ -32,10 +32,7 @@
 	},
 	"include": [
 		"src",
-		"src/**/*.vue",
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"types/**/*.d.ts"
+		"env.d.ts"
 	],
 	"exclude": [
 		"node_modules"

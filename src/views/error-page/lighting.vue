@@ -19,7 +19,7 @@ defineOptions({
 		</div>
 	</main>
 </template>
-<style lang="css">
+<style lang="css" scoped>
 button, hr, input {
 	overflow: visible
 }
@@ -37,10 +37,6 @@ html {
 	line-height: 1.15;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%
-}
-
-body {
-	margin: 0
 }
 
 menu, article, aside, details, footer, header, nav, section {
@@ -208,8 +204,7 @@ summary {
 [hidden], template {
 	display: none
 }
-</style>
-<style lang="css">
+
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300&display=swap");
 
 :root {

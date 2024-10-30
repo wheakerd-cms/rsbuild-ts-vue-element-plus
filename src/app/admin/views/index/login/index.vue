@@ -27,7 +27,7 @@ const onSubmit = async () => {
 		});
 		routerStore.setIsAddRouters(true);
 
-		await router.push('/dashboard/analysis');
+		await router.push('/dashboard');
 	}
 };
 </script>

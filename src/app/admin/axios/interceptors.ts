@@ -5,6 +5,7 @@ import {
 } from "axios";
 import {usePermissionStore} from "@/app/admin/stores/permission-store";
 import {ElMessage} from "element-plus";
+import router from "@/router";
 
 const permissionStore = usePermissionStore();
 
@@ -37,7 +38,7 @@ const responseInterceptors: [
 
 		return data;
 	},
-	(error: AxiosError): void => {
+	async (error: AxiosError): Promise<void> => {
 		const status: undefined | number = error?.status;
 		const message: undefined | string = (error?.response?.data as { message?: string })?.message;
 		ElMessage({
@@ -47,7 +48,8 @@ const responseInterceptors: [
 		});
 
 		if (status === 401) {
-
+			permissionStore.$reset();
+			await router.push({path: '/login'});
 		}
 	},
 ];

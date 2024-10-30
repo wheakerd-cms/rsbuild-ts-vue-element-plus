@@ -4,7 +4,7 @@ import {type RouteRecordRaw} from "vue-router";
 import {defineStore} from "pinia";
 import {pinia} from "@/plugin/pinia";
 import {computed, type ComputedRef, type Ref, ref} from "vue";
-import {generateRoutes as viewReaderGenerateRoutes} from "@/app/admin/utils/router-helper.ts";
+import {generateRoutes as viewReaderGenerateRoutes} from "@/app/admin/utils/router-helper";
 
 export const useRouterStore = defineStore('admin.router', () => {
 
@@ -34,7 +34,7 @@ export const useRouterStore = defineStore('admin.router', () => {
 			);
 
 			setRouters(
-				viewReaderGenerateRoutes(addRouters)
+				await viewReaderGenerateRoutes(addRouters)
 			);
 			resolve();
 		});

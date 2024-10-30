@@ -2,9 +2,9 @@ import type {RouteRecordRaw} from "vue-router";
 import {cloneDeep} from "lodash";
 import {getViewerModule} from "@/plugin/modules.ts";
 
-const LayoutView = getViewerModule('app/admin/views/LayoutView');
+const LayoutView = () => getViewerModule('app/admin/views/LayoutView');
 
-const getRoutes = (routes: RouteRecordRaw [], layout: unknown | { name: string }) => {
+const getRoutes = async (routes: RouteRecordRaw [], layout: unknown | { name: string }) => {
 	let routerMap: RouteRecordRaw [] = [];
 
 	const requiredKey: string [] = [
@@ -35,11 +35,11 @@ const getRoutes = (routes: RouteRecordRaw [], layout: unknown | { name: string }
 					? layout
 					: component === '##' ? {
 						name: 'ParentLayout'
-					} : getViewerModule(component);
+					} : () => getViewerModule(component);
 		}
 
 		if (!!route.children) {
-			data.children = getRoutes(route.children, layout);
+			data.children = await getRoutes(route.children, layout);
 		}
 
 		routerMap.push(data as RouteRecordRaw);
@@ -48,10 +48,10 @@ const getRoutes = (routes: RouteRecordRaw [], layout: unknown | { name: string }
 	return routerMap;
 };
 
-const generateRoutes = (routes: RouteRecordRaw []): RouteRecordRaw[] => {
+const generateRoutes = async (routes: RouteRecordRaw []): Promise<RouteRecordRaw[]> => {
 	const routers: RouteRecordRaw [] = cloneDeep(routes);
 
-	return getRoutes(routers, LayoutView);
+	return await getRoutes(routers, LayoutView);
 }
 
 export {

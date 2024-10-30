@@ -27,7 +27,7 @@ const renderMenuItem = (datasource: RouteRecordRaw []) => (
 						<>
 							<ElMenuItem index={item.name as string}
 										onClick={handleItemClick}
-							>{item.name}</ElMenuItem>
+							>{item?.meta?.name}</ElMenuItem>
 						</>
 					);
 				}
@@ -46,7 +46,7 @@ const templateRender = (datasource: RouteRecordRaw []) => (
 							<ElSubMenu index={item.name as string} v-slots={{
 								'title': () => (
 									<>
-										<span>{item.name}</span>
+										<span>{item?.meta?.name}</span>
 									</>
 								)
 							}}>

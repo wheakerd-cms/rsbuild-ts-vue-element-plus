@@ -28,23 +28,22 @@ const getRouterModule = (name: string): Router | undefined => {
 const loadViewerModules: Rspack.Context = import.meta.webpackContext('@/', {
 	recursive: true,
 	regExp: /(?:app\/.*\/views\/.*|views\/.*)\.(vue|tsx)$/,
-	mode: 'sync',
+	mode: 'lazy',
 });
-
 
 const existViewModule = (path: string): boolean => {
 	return loadViewerModules.keys().includes(path);
 };
 
-const getViewerModule = (path: string): unknown | undefined => {
+const getViewerModule = async (path: string): Promise<unknown | undefined> => {
 	let module: { default: unknown } | undefined;
 
 	if (existViewModule(`./${path}.vue`)) {
-		module = loadViewerModules(
+		module = await loadViewerModules(
 			`./${path}.vue`
 		) as { default: unknown };
 	} else if (existViewModule(`./${path}.tsx`)) {
-		module = loadViewerModules(
+		module = await loadViewerModules(
 			`./${path}.tsx`
 		) as { default: unknown };
 	}

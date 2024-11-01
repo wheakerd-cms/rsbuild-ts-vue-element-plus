@@ -9,6 +9,7 @@ declare module '*.vue' {
 interface ImportMetaEnv {
 	// import.meta.env.PUBLIC_ROUTER_MODE
 	readonly PUBLIC_ROUTER_MODE: 'host' | 'web';
+	readonly PUBLIC_ICONITY_BASEURL: string;
 }
 
 interface ImportMeta {

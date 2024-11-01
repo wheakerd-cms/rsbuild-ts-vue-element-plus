@@ -1,6 +1,6 @@
 import type {RouteRecordRaw} from "vue-router";
 import {cloneDeep} from "lodash";
-import {getViewerModule} from "@/plugin/modules.ts";
+import {getViewerModule} from "@/plugin/modules.plugin.ts";
 
 const LayoutView = () => getViewerModule('app/admin/views/LayoutView');
 

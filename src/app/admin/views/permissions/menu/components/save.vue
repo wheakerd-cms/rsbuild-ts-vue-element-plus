@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import {ElForm} from "element-plus";
 import {onMounted, reactive, Ref, ref} from "vue";
+import SvgIcon from "@/components/svg-icon";
+import SvgIconsPicker from "@/components/svg-icons-picker";
 
 defineOptions({
 	name: 'Save',
@@ -10,10 +12,6 @@ const model = defineModel({
 	type: Object,
 	required: true,
 });
-
-console.log(
-	model.value
-);
 
 const emits = defineEmits<{
 	register: [value: InstanceType<typeof ElForm> | undefined],
@@ -67,6 +65,7 @@ onMounted(() => {
 });
 </script>
 <template>
+	<svg-icon icon="icon-park:view-list"/>
 	<el-form ref="formRef"
 			 :model="model"
 			 :rules="rules"
@@ -128,10 +127,7 @@ onMounted(() => {
 			</el-col>
 			<el-col :span="12">
 				<el-form-item label="图标" prop="icon">
-					<el-input v-model="model.icon"
-					>
-						<template ></template>
-					</el-input>
+					<svg-icons-picker/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="24" v-if="model.type === 1">

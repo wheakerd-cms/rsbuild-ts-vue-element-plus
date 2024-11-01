@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import {axiosInstance, axiosConfig, axiosRequest} from "@/plugin/axios";
+import {axiosInstance, axiosConfig, axiosRequest} from "@/plugin/axios.plugin.ts";
 import {BASE_URL, CONTENT_TYPE} from "@/app/admin/axios/config";
 import {requestInterceptors, responseInterceptors} from "@/app/admin/axios/interceptors";
 import type {AxiosConfig, IResponse} from "@/app/admin/axios/type";

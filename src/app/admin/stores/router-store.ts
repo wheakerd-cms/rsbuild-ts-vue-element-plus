@@ -2,7 +2,7 @@
 
 import {type RouteRecordRaw} from "vue-router";
 import {defineStore} from "pinia";
-import {pinia} from "@/plugin/pinia";
+import {pinia} from "@/plugin/pinia.plugin.ts";
 import {computed, type ComputedRef, type Ref, ref} from "vue";
 import {generateRoutes as viewReaderGenerateRoutes} from "@/app/admin/utils/router-helper";
 

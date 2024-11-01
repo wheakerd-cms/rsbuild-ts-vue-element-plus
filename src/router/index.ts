@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory, Router} from 'vue-router';
 import {getAppName} from "@/utils/helper.ts";
-import {getRouterModule} from "@/plugin/modules.ts";
+import {getRouterModule} from "@/plugin/modules.plugin.ts";
 
 const defaultRouter: Router = createRouter({
     history: createWebHistory('/admin'),

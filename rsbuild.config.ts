@@ -21,6 +21,11 @@ export default defineConfig({
 		port: 8080,
 		printUrls: true,
 		strictPort: true,
+		publicDir: [
+			{
+				name: 'node_modules/@iconify/json',
+			},
+		],
 	},
 	plugins: [
 		pluginBabel({
@@ -53,6 +58,11 @@ export default defineConfig({
 		},
 		rspack: {
 			ignoreWarnings: [/warning from compiler/, () => true],
+			plugins: [
+				// require('unplugin-icons/webpack').default({
+				// 	collectionsNodeResolvePath: '@/node_modules',
+				// }),
+			],
 		},
 	},
 });

@@ -1,15 +1,22 @@
 <script lang="tsx" setup>
-import {Ref, ref} from "vue";
+import {ref} from "vue";
 import {
 	ElInput,
+	ElButton,
 	ElPopover,
+	ElScrollbar,
 } from "element-plus";
 import {unref} from "@vue/runtime-core";
 import SvgIcon from '@/components/svg-icon';
+import SvgIconsList from './data';
 
 defineOptions({
 	name: 'SvgIconsPicker',
 });
+
+console.log(
+	SvgIconsList
+)
 
 const model = defineModel({
 	type: String,
@@ -17,11 +24,10 @@ const model = defineModel({
 	default: '',
 });
 
-const inputRef: Ref<InstanceType<typeof ElInput> | undefined> = ref();
-
 const buttonRef = ref()
 const popoverRef = ref()
 const onClickOutside = () => {
+	console.log(unref(popoverRef).popperRef)
 	unref(popoverRef).popperRef?.delayHide?.()
 }
 
@@ -29,30 +35,52 @@ const onClickOutside = () => {
 const reader = () => <>
 	<div class="d-flex w-100 h-100 align-items-stretch">
 		<ElInput v-model={model.value}
-				 ref={inputRef}
+
 				 disabled={true}
 				 class="d-none"
 		/>
-		<div class="flex-grow-1 border" style={{
-			cursor: 'not-allowed'
-		}}>
+		<div class="flex-grow-1 border"
+			 style={{
+				 backgroundColor: '#f5f7fa',
+				 cursor: 'not-allowed',
+			 }}>
 			<SvgIcon v-show={!model.value} icon={model.value}/>
 		</div>
-		<div class="d-flex border border-1"
-			 onFocus={onClickOutside}
+		<div ref={buttonRef}
+			 onClick={onClickOutside}
+			 class="d-flex border border-1"
 			 style={{
 				 width: 25 + 'px',
 				 cursor: 'pointer',
 			 }}
 		/>
-		<ElPopover
-			ref={popoverRef}
-			virtual-ref={buttonRef}
-			trigger={'click'}
-			title={'With title'}
-			virtual-triggering
+		<ElPopover ref={popoverRef}
+				   virtual-ref={buttonRef}
+				   trigger={'click'}
+				   virtual-triggering
+				   width={450}
 		>
-			<span>Some content</span>
+			<div>
+				<div style={{
+					width: 'auto',
+					height: 380 + 'px',
+				}}>
+					<ElScrollbar viewClass="w-auto" viewStyle={{width: 'auto',}}>
+						<div class="d-inline-flex flex-column">
+							<ElButton class="w-100 d-none"/>
+							{
+								Object.entries(SvgIconsList).map(([key, item]) => {
+
+									return <>
+										<ElButton class="w-100">{key}</ElButton>
+									</>;
+								})
+							}
+
+						</div>
+					</ElScrollbar>
+				</div>
+			</div>
 		</ElPopover>
 	</div>
 </>;

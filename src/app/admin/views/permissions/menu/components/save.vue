@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import {ElForm} from "element-plus";
+import {
+	ElForm,
+	ElTreeSelect,
+} from "element-plus";
 import {onMounted, reactive, Ref, ref} from "vue";
-import SvgIcon from "@/components/svg-icon";
 import SvgIconsPicker from "@/components/svg-icons-picker";
 
 defineOptions({
@@ -65,7 +67,6 @@ onMounted(() => {
 });
 </script>
 <template>
-	<svg-icon icon="icon-park:view-list"/>
 	<el-form ref="formRef"
 			 :model="model"
 			 :rules="rules"
@@ -127,7 +128,12 @@ onMounted(() => {
 			</el-col>
 			<el-col :span="12">
 				<el-form-item label="图标" prop="icon">
-					<svg-icons-picker/>
+					<div class="d-flex">
+						<el-input v-model="model.icon" disabled/>
+						<div class="flex-shrink-1" style="width: 32px;">
+							<svg-icons-picker v-model="model.icon"/>
+						</div>
+					</div>
 				</el-form-item>
 			</el-col>
 			<el-col :span="24" v-if="model.type === 1">

@@ -1,10 +1,12 @@
-<script setup lang="tsx">
+<script lang="tsx" setup>
 import {
+	ElIcon,
 	ElMenu,
 	ElSubMenu,
 	ElMenuItem,
 } from "element-plus";
 import type {RouteRecordRaw} from "vue-router";
+import {Icon} from '@iconify/vue';
 
 defineOptions({
 	name: "MenuLayout",
@@ -27,7 +29,21 @@ const renderMenuItem = (datasource: RouteRecordRaw []) => (
 						<>
 							<ElMenuItem index={item.name as string}
 										onClick={handleItemClick}
-							>{item?.meta?.name}</ElMenuItem>
+										v-slots={{
+											'title': () => (
+												<>
+													<ElIcon v-if={!!item?.meta?.icon}
+															v-slots={{
+																default: () => <Icon
+																	icon={item?.meta?.icon as string}
+																/>,
+															}}
+													/>
+													<span>{item?.meta?.title}</span>
+												</>
+											)
+										}}
+							/>
 						</>
 					);
 				}
@@ -46,14 +62,15 @@ const templateRender = (datasource: RouteRecordRaw []) => (
 							<ElSubMenu index={item.name as string} v-slots={{
 								'title': () => (
 									<>
-										<span>{item?.meta?.name}</span>
+										<ElIcon v-if={!!item?.meta?.icon}
+												v-slots={{
+													default: () => <Icon icon={item?.meta?.icon as string}/>,
+												}}/>
+										<span>{item?.meta?.title}</span>
 									</>
-								)
-							}}>
-								{
-									renderMenuItem(item.children as unknown as RouteRecordRaw [])
-								}
-							</ElSubMenu>
+								),
+								'default': () => renderMenuItem(item.children as unknown as RouteRecordRaw []),
+							}}/>
 						</>
 					);
 				} else {

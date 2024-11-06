@@ -65,7 +65,9 @@ onMounted(() => {
 		<el-table-column v-if="props.hasSelection" fixed="left" type="selection"/>
 		<el-table-column prop="name" label="名称"/>
 		<el-table-column prop="icon" label="图标" width="55" align="center">
-			<icon icon="stash:dashboard"/>
+			<template #default="scope">
+				<Icon :icon="scope.row.icon"/>
+			</template>
 		</el-table-column>
 		<el-table-column prop="permissions" label="权限">
 			<template #default="scope">

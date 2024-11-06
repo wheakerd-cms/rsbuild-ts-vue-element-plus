@@ -5,7 +5,7 @@ export const defineRoutes: { [key: string]: any }[] = [
 		redirect: '/dashboard/analysis',
 		component: `#`,
 		meta: {
-			name: '首页',
+			title: '首页',
 		},
 		children: [
 			{
@@ -13,7 +13,7 @@ export const defineRoutes: { [key: string]: any }[] = [
 				name: 'dashboard-analysis',
 				component: `app/admin/views/dashboard/analysis/index`,
 				meta: {
-					name: '分析页',
+					title: '分析页',
 				},
 			},
 		],
@@ -23,7 +23,7 @@ export const defineRoutes: { [key: string]: any }[] = [
 		redirect: '/permissions/menu',
 		component: `#`,
 		meta: {
-			name: '权限管理',
+			title: '权限管理',
 		},
 		children: [
 			{
@@ -31,7 +31,7 @@ export const defineRoutes: { [key: string]: any }[] = [
 				name: 'permissions-menu',
 				component: `app/admin/views/permissions/menu/index`,
 				meta: {
-					name: '菜单管理',
+					title: '菜单管理',
 					permissions: [
 						'add', 'edit', 'detail', 'delete',
 					],

@@ -4,7 +4,7 @@ import {defineRoutes} from "@/app/admin/stores/routes-store";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
 import {useRouterStoreWithout} from "@/app/admin/stores/router-store";
-import {loginApi} from "@/app/admin/api/index/login";
+import {ApiLogin, ApiRoutes} from "@/app/admin/api/index/login";
 import type {loginApiTypes} from "@/app/admin/api/index/login/types";
 
 const routerStore = useRouterStoreWithout();
@@ -15,19 +15,23 @@ const form: Reactive<loginApiTypes> = reactive({
 });
 
 const onSubmit = async () => {
-	const res = await loginApi(form);
+	const res = await ApiLogin(form);
 
 	if (!!res) {
-		routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
-		await routerStore.generateRoutes();
-
-		routerStore.getRouters.forEach((route: RouteRecordRaw) => {
-			console.log(route)
-			router.addRoute(route);
-		});
-		routerStore.setIsAddRouters(true);
-
-		await router.push('/dashboard');
+		const routesRes = await ApiRoutes();
+		if (routesRes) {
+			console.log(routesRes);
+		}
+		// routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
+		// await routerStore.generateRoutes();
+		//
+		// routerStore.getRouters.forEach((route: RouteRecordRaw) => {
+		// 	console.log(route)
+		// 	router.addRoute(route);
+		// });
+		// routerStore.setIsAddRouters(true);
+		//
+		// await router.push('/dashboard');
 	}
 };
 </script>

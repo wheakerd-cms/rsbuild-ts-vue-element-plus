@@ -27,7 +27,6 @@ const router: Router = createRouter({
 	routes: baseRouter,
 });
 
-
 router.beforeEach(async (to, from, next) => {
 	const routerStore = useRouterStoreWithout();
 	const permissionStore = usePermissionStore();
@@ -37,9 +36,15 @@ router.beforeEach(async (to, from, next) => {
 			next();
 			return;
 		}
+		if (to.path === '/') {
+			next('/index/login');
+			return;
+		}
 		next(`/index/login?redirect=${to.path}`);
 		return;
 	}
+
+	console.log(to.path);
 
 	if (to.path === '/index/login' || to.path === '/') {
 		next({path: '/dashboard'});

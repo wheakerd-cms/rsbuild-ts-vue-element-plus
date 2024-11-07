@@ -30,18 +30,16 @@ const renderMenuItem = (datasource: RouteRecordRaw []) => (
 							<ElMenuItem index={item.name as string}
 										onClick={handleItemClick}
 										v-slots={{
-											'title': () => (
-												<>
-													<ElIcon v-if={!!item?.meta?.icon}
-															v-slots={{
-																default: () => <Icon
-																	icon={item?.meta?.icon as string}
-																/>,
-															}}
-													/>
-													<span>{item?.meta?.title}</span>
-												</>
-											)
+											'title': () => <>
+												{
+													!!item?.meta?.icon ?
+														<ElIcon v-slots={{
+															default: () => <Icon icon={item?.meta?.icon as string}/>,
+														}}/>
+														: null
+												}
+												<span>{item?.meta?.title}</span>
+											</>,
 										}}
 							/>
 						</>
@@ -57,22 +55,21 @@ const templateRender = (datasource: RouteRecordRaw []) => (
 		{
 			datasource.map((item: RouteRecordRaw): any => {
 				if (!!item.children) {
-					return (
-						<>
-							<ElSubMenu index={item.name as string} v-slots={{
-								'title': () => (
-									<>
-										<ElIcon v-if={!!item?.meta?.icon}
-												v-slots={{
-													default: () => <Icon icon={item?.meta?.icon as string}/>,
-												}}/>
-										<span>{item?.meta?.title}</span>
-									</>
-								),
-								'default': () => renderMenuItem(item.children as unknown as RouteRecordRaw []),
-							}}/>
-						</>
-					);
+					return <>
+						<ElSubMenu index={item.name as string} v-slots={{
+							'title': () => <>
+								{
+									!!item?.meta?.icon
+										? (<ElIcon v-slots={{
+											default: () => <Icon icon={item?.meta?.icon as string}/>,
+										}}/>)
+										: null
+								}
+								<span>{item?.meta?.title}</span>
+							</>,
+							'default': () => renderMenuItem(item.children as unknown as RouteRecordRaw []),
+						}}/>
+					</>;
 				} else {
 					return renderMenuItem(item.children as unknown as RouteRecordRaw []);
 				}

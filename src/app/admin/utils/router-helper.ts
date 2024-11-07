@@ -39,6 +39,7 @@ const getRoutes = async (routes: RouteRecordRaw [], layout: unknown | { name: st
 		}
 
 		if (!!route.children) {
+			data.redirect = {name: route.children[0].name};
 			data.children = await getRoutes(route.children, layout);
 		}
 
@@ -52,7 +53,7 @@ const generateRoutes = async (routes: RouteRecordRaw []): Promise<RouteRecordRaw
 	const routers: RouteRecordRaw [] = cloneDeep(routes);
 
 	return await getRoutes(routers, LayoutView);
-}
+};
 
 export {
 	generateRoutes,

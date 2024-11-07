@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import {Icon} from "@iconify/vue";
 
 defineOptions({
@@ -29,8 +28,10 @@ const emits = defineEmits<{
 	</el-button>
 	<el-button v-else
 			   type="info"
-			   icon="item.icon"
 			   @click="emits('deselectClick')"
 	>取消选中
+		<template #icon>
+			<icon icon="tabler:deselect"/>
+		</template>
 	</el-button>
 </template>

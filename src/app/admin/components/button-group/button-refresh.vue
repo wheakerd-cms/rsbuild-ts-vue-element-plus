@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import {Icon} from "@iconify/vue";
+
 defineOptions({
 	name: 'RefreshButton',
 });
@@ -8,8 +10,10 @@ const emits = defineEmits<{
 </script>
 <template>
 	<el-button type="primary"
-			   icon="item.icon"
 			   @click="emits('refreshClick')"
 	>刷新
+		<template #icon>
+			<icon icon="tabler:refresh"/>
+		</template>
 	</el-button>
 </template>

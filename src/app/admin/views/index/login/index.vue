@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {type Reactive, reactive} from "vue";
-import {defineRoutes} from "@/app/admin/stores/routes-store";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
 import {useRouterStoreWithout} from "@/app/admin/stores/router-store";
 import {ApiLogin, ApiRoutes} from "@/app/admin/api/index/login";
 import type {loginApiTypes} from "@/app/admin/api/index/login/types";
+import {ElMessage} from "element-plus";
 
 const routerStore = useRouterStoreWithout();
 
@@ -17,21 +17,28 @@ const form: Reactive<loginApiTypes> = reactive({
 const onSubmit = async () => {
 	const res = await ApiLogin(form);
 
-	if (!!res) {
-		const routesRes = await ApiRoutes();
-		if (routesRes) {
-			console.log(routesRes);
-		}
-		// routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
-		// await routerStore.generateRoutes();
-		//
-		// routerStore.getRouters.forEach((route: RouteRecordRaw) => {
-		// 	console.log(route)
-		// 	router.addRoute(route);
-		// });
-		// routerStore.setIsAddRouters(true);
-		//
-		// await router.push('/dashboard');
+	if (!res) return;
+	ElMessage.success(res.message);
+	await loadRoutes();
+
+	const redirect: string = router.currentRoute.value.query?.redirect as string || '/dashboard';
+	await router.push(redirect);
+};
+
+const loadRoutes = async () => {
+	const res = await ApiRoutes();
+
+	if (res) {
+		const {data} = res;
+
+		routerStore.setAddRouters(data as RouteRecordRaw []);
+		await routerStore.generateRoutes();
+
+		routerStore.getRouters.forEach((route: RouteRecordRaw) => {
+			console.log(route)
+			router.addRoute(route);
+		});
+		routerStore.setIsAddRouters(true);
 	}
 };
 </script>

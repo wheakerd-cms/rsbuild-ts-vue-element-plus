@@ -123,7 +123,7 @@ export const useTableHelper = (config: {
 				console.log('saveApi res', res);
 				return res;
 			} catch (err) {
-				console.log('updateApi error');
+				console.log('saveApi error', err);
 			}
 		},
 	};

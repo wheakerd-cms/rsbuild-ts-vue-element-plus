@@ -15,5 +15,5 @@ export declare interface AxiosConfig {
 
 export declare interface IResponse<T = any> {
 	message: string;
-	data: T | undefined;
+	data: T;
 }

@@ -12,3 +12,7 @@ export const ApiDelete = (data: Array<number>) => {
 export const ApiSave = (data: Record<string, any>) => {
 	return request.post({url: 'permissions/menu/save', data: data});
 };
+
+export const ApiSelectMenu = () => {
+	return request.get({url: 'permissions/menu/select-menu'});
+};

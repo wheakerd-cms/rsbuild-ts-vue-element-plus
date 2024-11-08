@@ -27,12 +27,14 @@ const {tableParams, tableRegister, tableMethods, handlers, events} = useTableHel
 		});
 
 		return {
-			list: res?.data?.list || [],
-			total: res?.data?.total || 0,
+			list: res?.data as unknown as any [] || [],
+			total: 0,
 		};
 	},
 	deleteApi: async (ids: Array<number>) => {
-		const res = await ApiDelete(ids);
+		const res = await ApiDelete({ids});
+
+		if (!!res) await loadRoutes();
 
 		return !!res;
 	},

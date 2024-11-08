@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {ElTable, ElTableColumn} from "element-plus";
 import {onMounted, Ref, ref} from "vue";
-import {Icon} from "@iconify/vue";
 
 const props = withDefaults(defineProps<{
 	rowKey?: string;
@@ -63,36 +62,15 @@ onMounted(() => {
 			  @selection-change="emits('select')"
 	>
 		<el-table-column v-if="props.hasSelection" fixed="left" type="selection"/>
-		<el-table-column prop="title" label="名称"/>
-		<el-table-column prop="icon" label="图标" width="55" align="center">
+		<el-table-column prop="username" label="账号"/>
+		<el-table-column prop="roles.name" label="角色组"/>
+		<el-table-column prop="status" label="状态">
 			<template #default="scope">
-				<Icon :icon="scope.row.icon"/>
+				<el-tag v-if="scope.row.status" type="success">正常</el-tag>
+				<el-tag v-else type="danger">禁用</el-tag>
 			</template>
 		</el-table-column>
-		<el-table-column prop="permissions" label="权限">
-			<template #default="scope">
-				<template v-for="item in scope.row.permissions">
-					<el-tag v-if="item === 'add'" class="mx-1" type="primary" size="small">新增</el-tag>
-					<el-tag v-else-if="item === 'edit'" class="mx-1" type="success" size="small">编辑</el-tag>
-					<el-tag v-else-if="item === 'delete'" class="mx-1" type="danger" size="small">删除</el-tag>
-				</template>
-			</template>
-		</el-table-column>
-		<el-table-column prop="path" label="路由"/>
-		<el-table-column prop="name" label="组件名"/>
-		<el-table-column prop="fixed" label="固定栏" align="center">
-			<template #default="scope">
-				<el-tag v-if="scope.row.fixed === true" type="success">是</el-tag>
-				<el-tag v-else type="danger">否</el-tag>
-			</template>
-		</el-table-column>
-		<el-table-column prop="status" label="状态" align="center">
-			<template #default="scope">
-				<el-tag v-if="scope.row.status === true" type="success">开启</el-tag>
-				<el-tag v-else type="danger">关闭</el-tag>
-			</template>
-		</el-table-column>
-		<el-table-column prop="sort" label="排序" align="center"/>
+		<el-table-column prop="createTime" label="创建时间"/>
 		<el-table-column v-if="props.operate"
 						 fixed="right"
 						 label="操作"

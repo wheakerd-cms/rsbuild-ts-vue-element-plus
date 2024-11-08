@@ -44,8 +44,6 @@ router.beforeEach(async (to, from, next) => {
 		return;
 	}
 
-	console.log(to.path);
-
 	if (to.path === '/index/login' || to.path === '/') {
 		next({path: '/dashboard'});
 		return;

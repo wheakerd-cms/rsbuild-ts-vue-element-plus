@@ -2,7 +2,6 @@
 import {onMounted, Ref, ref, watch} from "vue";
 import {
 	ElEmpty,
-	ElConfigProvider,
 	ElPopover,
 	ElScrollbar,
 	ElPagination,
@@ -10,7 +9,6 @@ import {
 import {unref} from "@vue/runtime-core";
 import SvgIconsList from './data';
 import {Icon} from '@iconify/vue';
-import zhCn from "element-plus/es/locale/lang/zh-cn";
 
 defineOptions({
 	name: 'SvgIconsPicker',
@@ -178,21 +176,19 @@ const reader = () => <>
 				</div>
 			</div>
 			<div class="mt-2">
-				<ElConfigProvider locale={zhCn}>
-					<ElPagination size={'small'}
-								  currentPage={currentPage.value}
-								  pageSize={pageSize.value}
-								  onUpdate:current-page={(value: number) => {
-									  currentPage.value = value;
-								  }}
-								  onUpdate:page-size={(value: number) => {
-									  pageSize.value = value;
-								  }}
-								  layout="total, prev, pager, next, jumper"
-								  total={total.value}
-								  onCurrent-change={(value) => console.log(typeof value)}
-					/>
-				</ElConfigProvider>
+				<ElPagination size={'small'}
+							  currentPage={currentPage.value}
+							  pageSize={pageSize.value}
+							  onUpdate:current-page={(value: number) => {
+								  currentPage.value = value;
+							  }}
+							  onUpdate:page-size={(value: number) => {
+								  pageSize.value = value;
+							  }}
+							  layout="total, prev, pager, next, jumper"
+							  total={total.value}
+							  onCurrent-change={(value) => console.log(typeof value)}
+				/>
 			</div>
 		</ElPopover>
 	</div>

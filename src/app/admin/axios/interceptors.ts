@@ -36,6 +36,11 @@ const responseInterceptors: [
 			permissionStore.setToken(token);
 		}
 
+		// ElMessage({
+		// 	message: data.message,
+		// 	type: 'success',
+		// });
+
 		return data;
 	},
 	async (error: AxiosError): Promise<void> => {
@@ -43,7 +48,6 @@ const responseInterceptors: [
 		const message: undefined | string = (error?.response?.data as { message?: string })?.message;
 		ElMessage({
 			message: !!message ? message : error.message,
-			grouping: true,
 			type: 'error',
 		});
 

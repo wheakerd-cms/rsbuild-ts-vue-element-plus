@@ -86,6 +86,7 @@ export const useTableHelper = (config: {
 							message: '操作成功',
 						});
 					}
+					await tableMethods.refreshTableData();
 				} catch (err) {
 					console.log('deleteApi error');
 				}
@@ -121,6 +122,7 @@ export const useTableHelper = (config: {
 			try {
 				const res: boolean = await saveApi(data);
 				console.log('saveApi res', res);
+				await tableMethods.refreshTableData();
 				return res;
 			} catch (err) {
 				console.log('saveApi error', err);

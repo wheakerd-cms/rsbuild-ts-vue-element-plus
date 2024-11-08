@@ -1,21 +1,23 @@
 <script lang="ts" setup>
-import {computed, ref} from "vue";
-import type {ComputedRef, Ref} from "vue";
+import {computed, ref, type Ref} from "vue";
 import {useRouterStoreWithout} from "@/app/admin/stores/router-store";
-import {useAppStore} from "@/app/admin/stores/app-store";
-import router from "@/app/admin/router";
 import HeaderLayout from "@/app/admin/components/layout/HeaderLayout.vue";
 import MenuLayout from "@/app/admin/components/layout/MenuLayout.vue";
+import {useAppStore} from "@/app/admin/stores/app-store.ts";
+import TagViewLayout from "@/app/admin/components/layout/TagViewLayout.vue";
 
 const {getAddRouters} = useRouterStoreWithout();
 const appStore = useAppStore();
 
 const datasource: Ref = ref(getAddRouters as []);
-const logoHeight: ComputedRef<number> = computed(() => appStore.nav.logo.height);
 
-const redirectRouter = (name: string) => {
-	router.push({name: name});
+const redirectRouter = async (route: Record<string, any>) => {
+	await appStore.setCacheRoutes(route);
 };
+
+const cachePagesKeys = computed(() => {
+	return appStore.getCacheRoutesKeys;
+});
 </script>
 <template>
 	<el-container class="vw-100 vh-100 overflow-hidden">
@@ -24,7 +26,7 @@ const redirectRouter = (name: string) => {
 				  class="overflow-hidden"
 		>
 			<div :style="{
-						height: logoHeight + 'px',
+						height: 52 + 'px',
 						backgroundColor: '#001529',
 				 	}"
 				 class="d-flex align-items-center justify-content-center text-white position-sticky top-0 z-1"
@@ -54,13 +56,14 @@ const redirectRouter = (name: string) => {
 		<el-container>
 			<el-header class="h-auto px-0">
 				<HeaderLayout/>
+				<TagViewLayout/>
 			</el-header>
 			<el-main id="main" class="rounded-1 border bg-white h-100 m-3 p-3">
 				<div class="w-100 h-100">
-					<RouterView v-slot="{Component}">
-						<Transition name="fade">
-							<Component :is="Component"/>
-						</Transition>
+					<RouterView v-slot="{Component, route}">
+						<KeepAlive :include="cachePagesKeys" :max="10">
+							<Component :key="route.fullPath" :is="Component"/>
+						</KeepAlive>
 					</RouterView>
 				</div>
 			</el-main>

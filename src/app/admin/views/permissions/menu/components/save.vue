@@ -3,7 +3,7 @@ import {
 	ElForm,
 	ElTreeSelect,
 } from "element-plus";
-import {onMounted, reactive, Ref, ref} from "vue";
+import {onMounted, Reactive, reactive, Ref, ref} from "vue";
 import SvgIconsPicker from "@/components/svg-icons-picker";
 import {ApiSelectMenu} from "@/app/admin/api/permissions/menu";
 
@@ -22,7 +22,7 @@ const emits = defineEmits<{
 
 const formRef: Ref<InstanceType<typeof ElForm> | undefined> = ref();
 
-const rules = reactive({
+const rules: Reactive<Record<string, any>> = reactive({
 	type: [
 		{required: true, trigger: 'change',},
 	],
@@ -33,9 +33,6 @@ const rules = reactive({
 		{required: true, trigger: 'change',},
 	],
 	name: [
-		{required: true, trigger: 'change',},
-	],
-	component: [
 		{required: true, trigger: 'change',},
 	],
 	icon: [
@@ -55,12 +52,18 @@ const rules = reactive({
 	],
 });
 
-const parentSelectId = ref(null);
-
 const parentSelect: Ref<Array<any>> = ref([]);
 
 const MenuTypeClick = (value: number) => {
-	model.value.component = value === 0 ? '#' : '';
+	if (value === 0) {
+		rules ['component'] = [
+			{required: true, trigger: 'change',},
+		];
+		model.value.component = '#';
+	} else {
+		delete rules.component;
+		model.value.component = '';
+	}
 };
 
 const loadSelectMenu = async () => {
@@ -109,7 +112,6 @@ onMounted(async () => {
 									clearable
 									check-strictly
 									default-expand-all
-									no-match-text=""
 									placeholder="顶级目录无需选择"
 					/>
 				</el-form-item>

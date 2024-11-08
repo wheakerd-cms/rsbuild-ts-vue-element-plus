@@ -18,6 +18,10 @@ const props = defineProps<{
 	datasource: RouteRecordRaw [],
 }>();
 
+const emits = defineEmits<{
+	(e: 'on-item-click', path: Object): void;
+}>();
+
 const renderMenuItem = (datasource: RouteRecordRaw []) => (
 	<>
 		{
@@ -28,7 +32,7 @@ const renderMenuItem = (datasource: RouteRecordRaw []) => (
 					return (
 						<>
 							<ElMenuItem index={item.name as string}
-										onClick={handleItemClick}
+										onClick={() => emits('on-item-click', item)}
 										v-slots={{
 											'title': () => <>
 												{
@@ -60,9 +64,9 @@ const templateRender = (datasource: RouteRecordRaw []) => (
 							'title': () => <>
 								{
 									!!item?.meta?.icon
-										? (<ElIcon v-slots={{
+										? <ElIcon v-slots={{
 											default: () => <Icon icon={item?.meta?.icon as string}/>,
-										}}/>)
+										}}/>
 										: null
 								}
 								<span>{item?.meta?.title}</span>
@@ -77,14 +81,6 @@ const templateRender = (datasource: RouteRecordRaw []) => (
 		}
 	</>
 );
-
-const emit = defineEmits<{
-	(e: 'on-item-click', path: string): void;
-}>();
-
-const handleItemClick = (item: any) => {
-	emit('on-item-click', item.index);
-};
 </script>
 <template>
 	<ElMenu class="el-menu-vertical-demo"

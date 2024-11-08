@@ -3,7 +3,7 @@ import PermissionsButton from "@/app/admin/components/button-group/button-permis
 import SelectButton from "@/app/admin/components/button-group/button-select.vue";
 import Table from "./components/table.vue";
 import {useTableHelper} from "@/app/admin/utils/use-table-helper.ts";
-import {ApiDelete, ApiSave, ApiTable} from "@/app/admin/api/permissions/menu";
+import {ApiDelete, ApiSave, ApiRolesList} from "@/app/admin/api/permissions/roles";
 import {onMounted, Ref, ref} from "vue";
 import {unref} from "@vue/runtime-core";
 import RefreshButton from "@/app/admin/components/button-group/button-refresh.vue";
@@ -11,7 +11,6 @@ import AdminDialog from "@/app/admin/components/element-plus/dialog.vue";
 import Save from "./components/save.vue";
 import Detail from "./components/detail.vue";
 import {useFormHelper} from "@/app/admin/utils/use-form-helper.ts";
-import {ElMessage} from "element-plus";
 import {ApiRoutes} from "@/app/admin/api/index/login";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
@@ -21,18 +20,18 @@ const {tableParams, tableRegister, tableMethods, handlers, events} = useTableHel
 	tableApi: async () => {
 		const {currentPage, pageSize} = tableParams;
 
-		const res = await ApiTable({
+		const res = await ApiRolesList({
 			currentPage: unref(currentPage),
 			pageSize: unref(pageSize),
 		});
 
 		return {
-			list: res?.data?.list || [],
+			list: res?.data as unknown as any [] || [],
 			total: res?.data?.total || 0,
 		};
 	},
 	deleteApi: async (ids: Array<number>) => {
-		const res = await ApiDelete(ids);
+		const res = await ApiDelete({ids});
 
 		return !!res;
 	},
@@ -73,17 +72,8 @@ const {formData} = formParams;
 const {getFormData, resetFormData} = formMethods;
 
 setDefaultFromData({
-	type: 0,
-	parentId: null,
-	title: '',
-	path: '',
 	name: '',
-	component: '',
-	icon: '',
-	dev: false,
-	fixed: false,
-	status: true,
-	sort: 0,
+	router: [],
 });
 
 const dialogVisible: Ref<boolean> = ref(false);
@@ -123,10 +113,6 @@ const saveActionHandler = async () => {
 
 		if (res) {
 			dialogVisible.value = false;
-			ElMessage({
-				type: 'success',
-				message: 'success',
-			});
 			await tableMethods.refreshTableData();
 		}
 	}

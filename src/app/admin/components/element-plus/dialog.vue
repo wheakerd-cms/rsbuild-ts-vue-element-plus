@@ -5,11 +5,12 @@ defineOptions({
 	name: 'AdminDialog',
 });
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	title: string;
-	event?: string;
-	width?: '500 px';
-}>();
+	width?: string | number;
+}>(), {
+	width: 640,
+});
 
 const modelValue = defineModel({
 	type: Boolean,

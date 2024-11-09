@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useAppStore} from "@/app/admin/stores/app-store.ts";
+import {Icon} from "@iconify/vue";
 
 defineOptions({
 	name: 'TagViewLayout',
@@ -8,14 +9,16 @@ defineOptions({
 const appStore = useAppStore();
 </script>
 <template>
-	<div>
-		11
-		<div v-for="([key, item]) in Object.entries(appStore.getCacheRoutes)">
-			<router-link :to="item?.meta?.path">
-				<div :key="key"
-					 class="border border-1">{{ item?.meta?.title }}
-				</div>
-			</router-link>
+	<div class="d-flex">
+		<div v-for="([_, item]) in Object.entries(appStore.getCacheRoutes)">
+			<el-tag closable>
+				<router-link :to="item?.meta?.path"
+							 class="text-decoration-none d-flex"
+				>
+					<icon :icon="item?.meta?.icon"/>
+					<div>{{ item?.meta?.title }}</div>
+				</router-link>
+			</el-tag>
 		</div>
 	</div>
 </template>
